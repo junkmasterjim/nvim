@@ -24,9 +24,7 @@ M.config = function()
     return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s' ~= nil
   end
 
-  -- Use Tab for trigger completion with characters ahead and navigate
-  -- NOTE: There's always a completion item selected by default, you may want to enable
-  -- no select by setting `"suggest.noselect": true` in your configuration file
+  -- Use tab for trigger completion with characters ahead and navigate
   -- NOTE: Use command ':verbose imap <tab>' to make sure Tab is not mapped by
   -- other plugins before putting this into your config
   local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
@@ -64,6 +62,7 @@ M.config = function()
       vim.api.nvim_command('!' .. vim.o.keywordprg .. ' ' .. cw)
     end
   end
+
   keyset('n', 'K', '<CMD>lua _G.show_docs()<CR>', { silent = true })
 
   -- Highlight the symbol and its references on a CursorHold event(cursor is idle)
@@ -136,4 +135,3 @@ M.config = function()
 end
 
 return M
-

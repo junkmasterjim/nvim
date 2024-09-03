@@ -18,11 +18,16 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.list = true
-vim.opt.listchars = { trail = '·', nbsp = '␣' }
+vim.opt.listchars = {tab = '··', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 vim.opt.scrolloff = 20
 vim.opt.hlsearch = true
+
+vim.opt.tabstop = 2
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 2
+vim.opt.autoindent = true
 
 -- Keymaps
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -64,17 +69,48 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Plugin setup
 require('lazy').setup({
-  -- Detect tabstop and shiftwidth automatically
+  -- Quality of life plugins
   'tpope/vim-sleuth',
+  'neoclide/coc.nvim',
+  'numToStr/Comment.nvim',
+  'lukas-reineke/indent-blankline.nvim',
+  'windwp/nvim-autopairs',
+      'hrsh7th/cmp-nvim-lsp',
 
-  -- Autocompletion
+
+  -- Git symbols
   {
-    'neoclide/coc.nvim',
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+    },
   },
 
-  -- Comment plugin
+  -- Todo Comments
   {
-    'numToStr/Comment.nvim',
+    'folke/todo-comments.nvim',
+    event = 'VimEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    opts = { signs = false },
+  },
+
+  -- Theme
+  "xiyaowong/transparent.nvim",
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000,
+    config = function()
+      vim.o.background = 'dark'
+
+      vim.cmd [[colorscheme gruvbox]]
+      vim.cmd.hi 'Comment gui=none'
+    end,
   },
 
 

@@ -1,4 +1,4 @@
-local M = {
+return {
   'folke/which-key.nvim',
   event = 'VimEnter',
   config = function()
@@ -29,5 +29,3 @@ local M = {
     }
   end,
 }
-
-return M
