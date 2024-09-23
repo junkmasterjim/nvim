@@ -116,7 +116,7 @@ local M = {
       gopls = {},
       pyright = {},
       rust_analyzer = {},
-      vtsls = {},
+      ts_ls= {},
 
 
       lua_ls = {
