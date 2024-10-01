@@ -4,6 +4,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 -- Options
+vim.opt.shortmess = "I"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
