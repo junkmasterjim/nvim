@@ -8,6 +8,7 @@ vim.opt.shortmess = "I"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
+vim.opt.textwidth = 80
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.breakindent = true
@@ -32,19 +33,27 @@ vim.opt.shiftwidth = 2
 vim.opt.autoindent = true
 
 -- Keymaps
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+local keymap = vim.keymap.set
+
+keymap('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+
+-- Toggle transparency
+keymap('n', '<leader>tt', ':TransparentToggle<CR>', { noremap = true, silent = true })
+
+
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+keymap('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
+keymap('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+keymap('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+keymap('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
 -- Window navigation
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+keymap('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+keymap('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+keymap('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+keymap('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Autocommands
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -103,7 +112,13 @@ require('lazy').setup({
   },
 
   -- Theme
-  "xiyaowong/transparent.nvim",
+  {
+   "xiyaowong/transparent.nvim",
+
+    opts = {
+      exclude_groups = {'StatusLine', 'StatusLineNC'}
+    }
+  },
   {
     'ellisonleao/gruvbox.nvim',
     priority = 1000,
@@ -115,6 +130,26 @@ require('lazy').setup({
     end,
   },
 
+  -- Mini.nvim 
+  {
+      'echasnovski/mini.nvim',
+      config = function()
+        -- Better Around/Inside textobjects
+        require('mini.ai').setup { n_lines = 500 }
+
+        -- Simple and easy statusline.
+        local statusline = require 'mini.statusline'
+        statusline.setup { use_icons = vim.g.have_nerd_font }
+
+        -- You can configure sections in the statusline by overriding their
+        -- default behavior. For example, here we set the section for
+        -- cursor location to LINE:COLUMN
+        ---@diagnostic disable-next-line: duplicate-set-field
+        statusline.section_location = function()
+          return '%2l:%-2v'
+        end
+      end,
+    },
 
   -- Modular configuration
   { import = 'custom.plugins' },
